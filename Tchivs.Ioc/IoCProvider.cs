@@ -5,16 +5,20 @@ using Autofac.Builder;
 
 namespace Tchivs.Ioc
 {
-    public class IoCProvider : IIoCProvider
+    internal class IoCProvider : IIoCProvider
     {
         private static IContainer _container;
         private ContainerBuilder _builder;
-
-        public static IIoCProvider Provider => _container.Resolve<IIoCProvider>();
-        public ISetup Setup => _container.Resolve<ISetup>();
+        // private IIoCProvider _ioC;
+        public static IIoCProvider Provider { get; private set; } //_container.Resolve<IIoCProvider>();
+                                                                  //public AppSetup AppSetup => _container.Resolve<AppSetup>();
 
         public IoCProvider(ContainerBuilder builder)
         {
+            if (Provider == null)
+            {
+                Provider = this;
+            }
             _builder = builder;
             builder.RegisterInstance(this).As<IIoCProvider>();
             builder.Register((x, c) => GetContainer());
@@ -26,11 +30,11 @@ namespace Tchivs.Ioc
             }
         }
 
-        void SetupScope(Action<ISetup> action)
+        void SetupScope(Action<AppSetup> action)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
-                var o = scope.Resolve<ISetup>();
+                var o = scope.Resolve<AppSetup>();
                 action.Invoke(o);
             }
         }

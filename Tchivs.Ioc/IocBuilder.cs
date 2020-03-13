@@ -3,19 +3,38 @@ using Autofac;
 
 namespace Tchivs.Ioc
 {
-    public interface ISetup
+
+    /// <summary>
+    /// 应用程序入口点
+    /// </summary>
+    public abstract class AppSetup
     {
-        bool IsStart { get; }
-        void StartApp();
-    }
-    public static class IocBuilderExtensions
-    {
-        public static IIocBuilder RegisterSetup<TIiSetup>(this IIocBuilder builder) where TIiSetup : class, ISetup
+        public static bool IsStart { get; protected set; } 
+
+        public virtual void StartApp()
         {
-            builder.RegisterSingleton<ISetup, TIiSetup>();
-            return builder;
+            if (IsStart)
+            {
+                return;
+            }
+            IsStart = true;
+        }
+
+        /// <summary>
+        /// 应用程序入口
+        /// </summary>
+        /// <param name="registerAction">如果需要额外注册事件则传入该方法</param>
+        /// <returns></returns>
+        public static AppSetup Start<TIiSetup>(Action<IIoCProvider> registerAction) where TIiSetup : AppSetup
+        {
+            var ioc = IocBuilder.Create()
+                  .RegisterSetup<TIiSetup>()
+                  .Build();
+            registerAction?.Invoke(ioc);
+            return ioc.Resolve<AppSetup>();
         }
     }
+
     public class IocBuilder : IIocBuilder
     {
         private readonly ContainerBuilder _builder;

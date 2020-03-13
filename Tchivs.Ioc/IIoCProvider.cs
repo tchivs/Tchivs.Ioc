@@ -5,7 +5,7 @@ namespace Tchivs.Ioc
 {
     public interface IIoCProvider
     {
-        ISetup Setup { get; }
+        //AppSetup AppSetup { get; }
         bool CanResolve<T>() where T : class;
         bool CanResolve(Type type);
         //object Create(Type type);
