@@ -1,5 +1,6 @@
 ﻿using System;
 using Autofac;
+using Tchivs.Ioc.Logging;
 
 namespace Tchivs.Ioc
 {
@@ -9,7 +10,7 @@ namespace Tchivs.Ioc
     /// </summary>
     public abstract class AppSetup
     {
-        public static bool IsStart { get; protected set; } 
+        public static bool IsStart { get; protected set; }
 
         public virtual void StartApp()
         {
@@ -19,6 +20,7 @@ namespace Tchivs.Ioc
             }
             IsStart = true;
         }
+
 
         /// <summary>
         /// 应用程序入口
@@ -44,6 +46,7 @@ namespace Tchivs.Ioc
         public IocBuilder()
         {
             _builder = new ContainerBuilder();
+            this.RegisterLogProvider();
         }
         #endregion
 
@@ -55,7 +58,6 @@ namespace Tchivs.Ioc
             _builder.Register(c => theConstructor).As(tInterface).SingleInstance();
             return this;
         }
-
 
 
 
