@@ -21,13 +21,8 @@ namespace Tchivs.Ioc
             }
             _builder = builder;
             builder.RegisterInstance(this).As<IIoCProvider>();
-            builder.Register((x, c) => GetContainer());
+            builder.Register<IContainer>((x, c) => GetContainer());
             _container = builder.Build();
-            var flag = _container.IsRegistered<IContainer>();
-            if (flag)
-            {
-                throw new Exception("IContainer Is null");
-            }
         }
 
         void SetupScope(Action<AppSetup> action)

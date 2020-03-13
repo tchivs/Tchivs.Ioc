@@ -22,19 +22,7 @@ namespace Tchivs.Ioc
         }
 
 
-        /// <summary>
-        /// 应用程序入口
-        /// </summary>
-        /// <param name="registerAction">如果需要额外注册事件则传入该方法</param>
-        /// <returns></returns>
-        public static AppSetup Start<TIiSetup>(Action<IIoCProvider> registerAction) where TIiSetup : AppSetup
-        {
-            var ioc = IocBuilder.Create()
-                  .RegisterSetup<TIiSetup>()
-                  .Build();
-            registerAction?.Invoke(ioc);
-            return ioc.Resolve<AppSetup>();
-        }
+  
     }
 
     public class IocBuilder : IIocBuilder
@@ -46,7 +34,7 @@ namespace Tchivs.Ioc
         public IocBuilder()
         {
             _builder = new ContainerBuilder();
-            this.RegisterLogProvider();
+            this.UseLogProvider();
         }
         #endregion
 
@@ -76,7 +64,8 @@ namespace Tchivs.Ioc
 
         public IIocBuilder RegisterSingleton<TInterface>(Func<TInterface> theConstructor) where TInterface : class
         {
-            _builder.Register(c => theConstructor).As<TInterface>().SingleInstance();
+           // _builder.Register(x => theConstructor).As<TInterface>().SingleInstance();
+            _builder.RegisterInstance(theConstructor()).As<TInterface>().SingleInstance();
             return this;
         }
 

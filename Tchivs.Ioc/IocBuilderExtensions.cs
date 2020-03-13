@@ -6,9 +6,15 @@ namespace Tchivs.Ioc
 {
     public static class IocBuilderExtensions
     {
+        public static AppSetup GetAppSetup<TAppSetup>(this IIocBuilder builder, Action<IIocBuilder> registerAction = null) where TAppSetup : AppSetup
+        {
+            builder.RegisterSetup<TAppSetup>();
+            registerAction?.Invoke(builder);
+            var ioc = builder.Build();
+            return ioc.Resolve<AppSetup>();
+        }
 
-
-        public static IIocBuilder RegisterLogProvider(this IIocBuilder builder, MvxLogProviderType type = MvxLogProviderType.Console)
+        public static IIocBuilder UseLogProvider(this IIocBuilder builder, MvxLogProviderType type = MvxLogProviderType.Console)
         {
             Func<ITcLogProvider> logProviderCreator;
             switch (type)
