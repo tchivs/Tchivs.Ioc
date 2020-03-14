@@ -58,18 +58,18 @@ namespace Tchivs.Ioc
             return builder;
         }
 
-        public static AppSetup RegisterAndGetAppSetup<TAppSetup>(this IIocBuilder builder, Action<IIocBuilder> registerAction = null) where TAppSetup : AppSetup
+        public static AppSetupBase RegisterAndGetAppSetup<TAppSetup>(this IIocBuilder builder, Action<IIocBuilder> registerAction = null) where TAppSetup : AppSetupBase
         {
             builder.RegisterSetup<TAppSetup>();
             registerAction?.Invoke(builder);
             var ioc = builder.Build();
-            return ioc.Resolve<AppSetup>();
+            return ioc.Resolve<AppSetupBase>();
         }
 
 
-        public static IIocBuilder RegisterSetup<TIiSetup>(this IIocBuilder builder) where TIiSetup : AppSetup
+        public static IIocBuilder RegisterSetup<TIiSetup>(this IIocBuilder builder) where TIiSetup : AppSetupBase
         {
-            builder.RegisterSingleton<AppSetup, TIiSetup>();
+            builder.RegisterSingleton<AppSetupBase, TIiSetup>();
             return builder;
         }
     }

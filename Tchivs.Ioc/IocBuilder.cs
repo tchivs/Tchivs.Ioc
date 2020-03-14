@@ -4,36 +4,6 @@ using Tchivs.Ioc.Logging;
 
 namespace Tchivs.Ioc
 {
-
-    /// <summary>
-    /// 应用程序入口点
-    /// </summary>
-    public abstract class AppSetup
-    {
-        private readonly IIoCProvider _ioCProvider;
-        public static bool IsStart { get; protected set; }
-
-        public virtual ApplicationBase StartApp()
-        {
-            if (IsStart)
-            {
-                return null;
-            }
-            IsStart = true;
-            return _ioCProvider.Resolve<ApplicationBase>();
-        }
-
-
-        #region constructors
-
-        protected AppSetup(IIoCProvider ioCProvider)
-        {
-            _ioCProvider = ioCProvider;
-        }
-
-        #endregion
-    }
-
     public class IocBuilder : IIocBuilder
     {
         #region fields

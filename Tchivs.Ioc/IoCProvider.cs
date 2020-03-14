@@ -11,7 +11,7 @@ namespace Tchivs.Ioc
         private ContainerBuilder _builder;
         // private IIoCProvider _ioC;
         public static IIoCProvider Provider { get; private set; } //_container.Resolve<IIoCProvider>();
-                                                                  //public AppSetup AppSetup => _container.Resolve<AppSetup>();
+                                                                  //public AppSetupBase AppSetupBase => _container.Resolve<AppSetupBase>();
 
         internal IoCProvider(ContainerBuilder builder)
         {
@@ -25,11 +25,11 @@ namespace Tchivs.Ioc
             _container = builder.Build();
         }
 
-        void SetupScope(Action<AppSetup> action)
+        void SetupScope(Action<AppSetupBase> action)
         {
             using (var scope = _container.BeginLifetimeScope())
             {
-                var o = scope.Resolve<AppSetup>();
+                var o = scope.Resolve<AppSetupBase>();
                 action.Invoke(o);
             }
         }
