@@ -47,14 +47,15 @@ namespace Tchivs.Ioc
             }
             if (logProviderCreator != null)
             {
-                builder.RegisterSingleton(logProviderCreator);
+                builder.RegisterSingleton<ITcLogProvider>(logProviderCreator);
             }
             return builder;
         }
 
-        public static IIocBuilder UseApplication<TApplication>(this IIocBuilder iocBuilder)
+        public static IIocBuilder UseApplication<TApplication>(this IIocBuilder builder) where TApplication : ApplicationBase
         {
-            return iocBuilder;
+            builder.RegisterSingleton<ApplicationBase, TApplication>();
+            return builder;
         }
 
         public static AppSetup RegisterAndGetAppSetup<TAppSetup>(this IIocBuilder builder, Action<IIocBuilder> registerAction = null) where TAppSetup : AppSetup

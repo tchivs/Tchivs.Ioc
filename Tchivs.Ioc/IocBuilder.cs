@@ -10,16 +10,28 @@ namespace Tchivs.Ioc
     /// </summary>
     public abstract class AppSetup
     {
+        private readonly IIoCProvider _ioCProvider;
         public static bool IsStart { get; protected set; }
 
-        public virtual void StartApp()
+        public virtual ApplicationBase StartApp()
         {
             if (IsStart)
             {
-                return;
+                return null;
             }
             IsStart = true;
+            return _ioCProvider.Resolve<ApplicationBase>();
         }
+
+
+        #region constructors
+
+        protected AppSetup(IIoCProvider ioCProvider)
+        {
+            _ioCProvider = ioCProvider;
+        }
+
+        #endregion
     }
 
     public class IocBuilder : IIocBuilder
@@ -52,7 +64,7 @@ namespace Tchivs.Ioc
 
         public IIocBuilder RegisterSingleton<TInterface>(TInterface theObject) where TInterface : class
         {
-            _builder.RegisterInstance(theObject).As<TInterface>().SingleInstance();
+            _builder.RegisterInstance(theObject).As<TInterface>();
             return this;
 
         }
@@ -65,8 +77,8 @@ namespace Tchivs.Ioc
 
         public IIocBuilder RegisterSingleton<TInterface>(Func<TInterface> theConstructor) where TInterface : class
         {
-           // _builder.Register(x => theConstructor).As<TInterface>().SingleInstance();
-            _builder.RegisterInstance(theConstructor()).As<TInterface>().SingleInstance();
+            // _builder.Register(x => theConstructor).As<TInterface>().SingleInstance();
+            _builder.RegisterInstance(theConstructor()).As<TInterface>();
             return this;
         }
 

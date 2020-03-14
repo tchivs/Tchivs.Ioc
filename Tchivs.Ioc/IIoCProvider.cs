@@ -9,8 +9,8 @@ namespace Tchivs.Ioc
         bool CanResolve<T>() where T : class;
         bool CanResolve(Type type);
         IIoCProvider CreateChildContainer();
-        void ResolveScope(Type type, Action<Object> action);
-        void ResolveScope<T>(Action<T> action);
+        void ResolveScope(Type type, Action<Object> action=null);
+        void ResolveScope<T>(Action<T> action=null);
         object Resolve(Type type);
         T Resolve<T>() where T : class;
         bool TryResolve(Type type, out object resolved);
