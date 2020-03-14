@@ -20,14 +20,15 @@ namespace Tchivs.Ioc
             }
             IsStart = true;
         }
-
-
-  
     }
 
     public class IocBuilder : IIocBuilder
     {
+        #region fields
+
         private readonly ContainerBuilder _builder;
+
+        #endregion
 
         #region constructors
 
@@ -107,10 +108,14 @@ namespace Tchivs.Ioc
 
         #endregion
 
+        #region functhon
+
         public static IocBuilder Create()
         {
             IocBuilder iocBuilder = new IocBuilder();
             return iocBuilder;
         }
+
+        #endregion
     }
 }

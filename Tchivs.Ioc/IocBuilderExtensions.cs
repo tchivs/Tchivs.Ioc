@@ -6,14 +6,12 @@ namespace Tchivs.Ioc
 {
     public static class IocBuilderExtensions
     {
-        public static AppSetup GetAppSetup<TAppSetup>(this IIocBuilder builder, Action<IIocBuilder> registerAction = null) where TAppSetup : AppSetup
-        {
-            builder.RegisterSetup<TAppSetup>();
-            registerAction?.Invoke(builder);
-            var ioc = builder.Build();
-            return ioc.Resolve<AppSetup>();
-        }
-
+        /// <summary>
+        /// 日志构造器
+        /// </summary>
+        /// <param name="builder"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static IIocBuilder UseLogProvider(this IIocBuilder builder, MvxLogProviderType type = MvxLogProviderType.Console)
         {
             Func<ITcLogProvider> logProviderCreator;
@@ -52,6 +50,19 @@ namespace Tchivs.Ioc
                 builder.RegisterSingleton(logProviderCreator);
             }
             return builder;
+        }
+
+        public static IIocBuilder UseApplication<TApplication>(this IIocBuilder iocBuilder)
+        {
+            return iocBuilder;
+        }
+
+        public static AppSetup RegisterAndGetAppSetup<TAppSetup>(this IIocBuilder builder, Action<IIocBuilder> registerAction = null) where TAppSetup : AppSetup
+        {
+            builder.RegisterSetup<TAppSetup>();
+            registerAction?.Invoke(builder);
+            var ioc = builder.Build();
+            return ioc.Resolve<AppSetup>();
         }
 
 
