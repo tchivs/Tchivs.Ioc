@@ -13,7 +13,8 @@ namespace Tchivs.Ioc
 
         protected ApplicationBase(ITcLogProvider logProvider)
         {
-            Logger = logProvider.GetLogFor<ApplicationBase>();
+            Logger = logProvider.GetLogFor(typeof(ApplicationBase));
+            
         }
 
         #endregion

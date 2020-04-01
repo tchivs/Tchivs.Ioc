@@ -47,7 +47,6 @@ namespace Tchivs.Ioc
 
         public IIocBuilder RegisterSingleton<TInterface>(Func<TInterface> theConstructor) where TInterface : class
         {
-            // _builder.Register(x => theConstructor).As<TInterface>().SingleInstance();
             _builder.RegisterInstance(theConstructor()).As<TInterface>();
             return this;
         }
@@ -84,6 +83,7 @@ namespace Tchivs.Ioc
 
         public IIoCProvider Build()
         {
+           
             var i = new IoCProvider(_builder);
             return i;
         }

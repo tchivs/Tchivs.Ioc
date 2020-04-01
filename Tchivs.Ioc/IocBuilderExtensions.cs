@@ -6,6 +6,42 @@ namespace Tchivs.Ioc
 {
     public static class IocBuilderExtensions
     {
+        public static Func<ITcLogProvider> GetLogProvider(MvxLogProviderType type = MvxLogProviderType.Console)
+        {
+            Func<ITcLogProvider> logProviderCreator;
+            switch (type)
+            {
+                case MvxLogProviderType.Console:
+                    logProviderCreator = () => new ConsoleLogProvider();
+                    break;
+
+                case MvxLogProviderType.EntLib:
+                    logProviderCreator = () => new EntLibLogProvider();
+                    break;
+
+                case MvxLogProviderType.Log4Net:
+                    logProviderCreator = () => new Log4NetLogProvider();
+                    break;
+
+                case MvxLogProviderType.Loupe:
+                    logProviderCreator = () => new LoupeLogProvider();
+                    break;
+
+                case MvxLogProviderType.NLog:
+                    logProviderCreator = () => new NLogLogProvider();
+                    break;
+
+                case MvxLogProviderType.Serilog:
+                    logProviderCreator = () => new SerilogLogProvider();
+                    break;
+
+                default:
+                    logProviderCreator = null;
+                    break;
+            }
+
+            return logProviderCreator;
+        }
         /// <summary>
         /// 日志构造器
         /// </summary>
