@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using Tchivs.Ioc.Logging.LogProviders;
 
 namespace Tchivs.Ioc.Logging
 {
-
     public interface ITcLog
     {
         bool Log(TcLogLevel logLevel, Func<string> messageFunc, Exception exception = null, params object[] formatParameters);
 
         bool IsLogLevelEnabled(TcLogLevel logLevel);
     }
+
     public enum MvxLogProviderType
     {
         Console,
@@ -21,6 +19,7 @@ namespace Tchivs.Ioc.Logging
         NLog,
         Serilog
     }
+
     public interface ITcLogProvider
     {
         ITcLog GetLogFor(Type type);
@@ -33,6 +32,7 @@ namespace Tchivs.Ioc.Logging
 
         IDisposable OpenMappedContext(string key, string value);
     }
+
     internal class TcLog : ITcLog
     {
         internal static ITcLog Instance { get; set; }
@@ -70,5 +70,4 @@ namespace Tchivs.Ioc.Logging
             return _logger(logLevel, wrappedMessageFunc, exception, formatParameters);
         }
     }
-
 }

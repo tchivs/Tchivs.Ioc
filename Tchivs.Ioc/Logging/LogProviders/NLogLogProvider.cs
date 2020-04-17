@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Tchivs.Ioc.Logging.LogProviders
 {
-        internal class NLogLogProvider : TcBaseLogProvider
+    internal class NLogLogProvider : TcBaseLogProvider
     {
         private readonly Func<string, object> _getLoggerByNameDelegate;
 
@@ -124,11 +124,15 @@ namespace Tchivs.Ioc.Logging.LogProviders
 
             private static bool _structuredLoggingEnabled;
 
-            delegate string LoggerNameDelegate(object logger);
-            delegate void LogEventDelegate(object logger, Type wrapperType, object logEvent);
-            delegate bool IsEnabledDelegate(object logger);
-            delegate void LogDelegate(object logger, string message);
-            delegate void LogExceptionDelegate(object logger, string message, Exception exception);
+            private delegate string LoggerNameDelegate(object logger);
+
+            private delegate void LogEventDelegate(object logger, Type wrapperType, object logEvent);
+
+            private delegate bool IsEnabledDelegate(object logger);
+
+            private delegate void LogDelegate(object logger, string message);
+
+            private delegate void LogExceptionDelegate(object logger, string message, Exception exception);
 
             private static readonly LoggerNameDelegate _loggerNameDelegate;
             private static readonly LogEventDelegate _logEventDelegate;
@@ -178,7 +182,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         throw new InvalidOperationException("Type NLog.LogEventInfo was not found.");
                     }
 
-                    var loggingEventConstructor = logEventInfoType.GetConstructor(new []
+                    var loggingEventConstructor = logEventInfoType.GetConstructor(new[]
                     {
                         logEventLevelType,
                         typeof(string),
@@ -343,6 +347,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     case TcLogLevel.Info:
                         if (_isInfoEnabledDelegate(_logger))
                         {
@@ -351,6 +356,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     case TcLogLevel.Warn:
                         if (_isWarnEnabledDelegate(_logger))
                         {
@@ -359,6 +365,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     case TcLogLevel.Error:
                         if (_isErrorEnabledDelegate(_logger))
                         {
@@ -367,6 +374,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     case TcLogLevel.Fatal:
                         if (_isFatalEnabledDelegate(_logger))
                         {
@@ -375,6 +383,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     default:
                         if (_isTraceEnabledDelegate(_logger))
                         {
@@ -401,6 +410,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     case TcLogLevel.Info:
                         if (_isInfoEnabledDelegate(_logger))
                         {
@@ -409,6 +419,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     case TcLogLevel.Warn:
                         if (_isWarnEnabledDelegate(_logger))
                         {
@@ -417,6 +428,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     case TcLogLevel.Error:
                         if (_isErrorEnabledDelegate(_logger))
                         {
@@ -425,6 +437,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     case TcLogLevel.Fatal:
                         if (_isFatalEnabledDelegate(_logger))
                         {
@@ -433,6 +446,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
                         }
 
                         break;
+
                     default:
                         if (_isTraceEnabledDelegate(_logger))
                         {
@@ -452,14 +466,19 @@ namespace Tchivs.Ioc.Logging.LogProviders
                 {
                     case TcLogLevel.Debug:
                         return _isDebugEnabledDelegate(_logger);
+
                     case TcLogLevel.Info:
                         return _isInfoEnabledDelegate(_logger);
+
                     case TcLogLevel.Warn:
                         return _isWarnEnabledDelegate(_logger);
+
                     case TcLogLevel.Error:
                         return _isErrorEnabledDelegate(_logger);
+
                     case TcLogLevel.Fatal:
                         return _isFatalEnabledDelegate(_logger);
+
                     default:
                         return _isTraceEnabledDelegate(_logger);
                 }
@@ -471,16 +490,22 @@ namespace Tchivs.Ioc.Logging.LogProviders
                 {
                     case TcLogLevel.Trace:
                         return _levelTrace;
+
                     case TcLogLevel.Debug:
                         return _levelDebug;
+
                     case TcLogLevel.Info:
                         return _levelInfo;
+
                     case TcLogLevel.Warn:
                         return _levelWarn;
+
                     case TcLogLevel.Error:
                         return _levelError;
+
                     case TcLogLevel.Fatal:
                         return _levelFatal;
+
                     default:
                         throw new ArgumentOutOfRangeException("logLevel", logLevel, null);
                 }
@@ -513,11 +538,7 @@ namespace Tchivs.Ioc.Logging.LogProviders
         }
     }
 
-
-
-
-
-            internal class Log4NetLogProvider : TcBaseLogProvider
+    internal class Log4NetLogProvider : TcBaseLogProvider
     {
         private readonly Func<Assembly, string, object> _getLoggerByNameDelegate;
 
@@ -859,20 +880,26 @@ namespace Tchivs.Ioc.Logging.LogProviders
                     case TcLogLevel.Trace:
                     case TcLogLevel.Debug:
                         return _levelDebug;
+
                     case TcLogLevel.Info:
                         return _levelInfo;
+
                     case TcLogLevel.Warn:
                         return _levelWarn;
+
                     case TcLogLevel.Error:
                         return _levelError;
+
                     case TcLogLevel.Fatal:
                         return _levelFatal;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(logLevel), logLevel, null);
                 }
             }
         }
     }
+
     internal class EntLibLogProvider : TcBaseLogProvider
     {
         private const string TypeTemplate = "Microsoft.Practices.EnterpriseLibrary.Logging.{0}, Microsoft.Practices.EnterpriseLibrary.Logging";
@@ -1006,18 +1033,23 @@ namespace Tchivs.Ioc.Logging.LogProviders
                 {
                     case TcLogLevel.Fatal:
                         return TraceEventType.Critical;
+
                     case TcLogLevel.Error:
                         return TraceEventType.Error;
+
                     case TcLogLevel.Warn:
                         return TraceEventType.Warning;
+
                     case TcLogLevel.Info:
                         return TraceEventType.Information;
+
                     default:
                         return TraceEventType.Verbose;
                 }
             }
         }
     }
+
     internal class SerilogLogProvider : TcBaseLogProvider
     {
         private readonly Func<string, object> _getLoggerByNameDelegate;
@@ -1240,20 +1272,26 @@ namespace Tchivs.Ioc.Logging.LogProviders
                 {
                     case TcLogLevel.Fatal:
                         return FatalLevel;
+
                     case TcLogLevel.Error:
                         return ErrorLevel;
+
                     case TcLogLevel.Warn:
                         return WarningLevel;
+
                     case TcLogLevel.Info:
                         return InformationLevel;
+
                     case TcLogLevel.Trace:
                         return VerboseLevel;
+
                     default:
                         return DebugLevel;
                 }
             }
         }
     }
+
     internal class LoupeLogProvider : TcBaseLogProvider
     {
         /// <summary>
@@ -1350,21 +1388,26 @@ namespace Tchivs.Ioc.Logging.LogProviders
                 {
                     case TcLogLevel.Trace:
                         return TraceEventType.Verbose;
+
                     case TcLogLevel.Debug:
                         return TraceEventType.Verbose;
+
                     case TcLogLevel.Info:
                         return TraceEventType.Information;
+
                     case TcLogLevel.Warn:
                         return TraceEventType.Warning;
+
                     case TcLogLevel.Error:
                         return TraceEventType.Error;
+
                     case TcLogLevel.Fatal:
                         return TraceEventType.Critical;
+
                     default:
                         throw new ArgumentOutOfRangeException(nameof(logLevel));
                 }
             }
         }
     }
-
 }

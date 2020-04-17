@@ -1,6 +1,5 @@
-﻿using System;
-using Autofac;
-using Tchivs.Ioc.Logging;
+﻿using Autofac;
+using System;
 
 namespace Tchivs.Ioc
 {
@@ -10,7 +9,7 @@ namespace Tchivs.Ioc
 
         private readonly ContainerBuilder _builder;
 
-        #endregion
+        #endregion fields
 
         #region constructors
 
@@ -19,10 +18,10 @@ namespace Tchivs.Ioc
             _builder = new ContainerBuilder();
             this.UseLogProvider();
         }
-        #endregion
+
+        #endregion constructors
 
         #region override
-
 
         public IIocBuilder RegisterSingleton(Type tInterface, Func<object> theConstructor)
         {
@@ -30,13 +29,10 @@ namespace Tchivs.Ioc
             return this;
         }
 
-
-
         public IIocBuilder RegisterSingleton<TInterface>(TInterface theObject) where TInterface : class
         {
             _builder.RegisterInstance(theObject).As<TInterface>();
             return this;
-
         }
 
         public IIocBuilder RegisterSingleton<TInterface, TType>() where TInterface : class where TType : class, TInterface
@@ -83,12 +79,11 @@ namespace Tchivs.Ioc
 
         public IIoCProvider Build()
         {
-           
             var i = new IoCProvider(_builder);
             return i;
         }
 
-        #endregion
+        #endregion override
 
         #region functhon
 
@@ -98,6 +93,6 @@ namespace Tchivs.Ioc
             return iocBuilder;
         }
 
-        #endregion
+        #endregion functhon
     }
 }

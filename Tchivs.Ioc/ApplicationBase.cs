@@ -1,4 +1,5 @@
 ﻿using Tchivs.Ioc.Logging;
+
 namespace Tchivs.Ioc
 {
     public abstract class ApplicationBase
@@ -7,17 +8,16 @@ namespace Tchivs.Ioc
 
         protected ITcLog Logger { get; }
 
-        #endregion
+        #endregion properties
 
         #region constructors
 
         protected ApplicationBase(ITcLogProvider logProvider)
         {
             Logger = logProvider.GetLogFor(typeof(ApplicationBase));
-            
         }
 
-        #endregion
+        #endregion constructors
 
         #region abstracct methods
 
@@ -32,6 +32,6 @@ namespace Tchivs.Ioc
         /// </summary>
         public abstract void Stop();
 
-        #endregion
+        #endregion abstracct methods
     }
 }

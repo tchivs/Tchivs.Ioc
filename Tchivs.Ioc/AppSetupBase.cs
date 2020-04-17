@@ -18,7 +18,6 @@
             return _ioCProvider.Resolve<ApplicationBase>();
         }
 
-
         #region constructors
 
         protected AppSetupBase(IIoCProvider ioCProvider)
@@ -26,6 +25,6 @@
             _ioCProvider = ioCProvider;
         }
 
-        #endregion
+        #endregion constructors
     }
 }

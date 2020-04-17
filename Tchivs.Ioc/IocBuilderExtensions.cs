@@ -42,6 +42,7 @@ namespace Tchivs.Ioc
 
             return logProviderCreator;
         }
+
         /// <summary>
         /// 日志构造器
         /// </summary>
@@ -102,16 +103,10 @@ namespace Tchivs.Ioc
             return ioc.Resolve<AppSetupBase>();
         }
 
-
         public static IIocBuilder RegisterSetup<TIiSetup>(this IIocBuilder builder) where TIiSetup : AppSetupBase
         {
             builder.RegisterSingleton<AppSetupBase, TIiSetup>();
             return builder;
         }
     }
-
-
-
-
-
 }
